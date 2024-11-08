@@ -2,6 +2,8 @@ package com.example.yandextodoapp.ui.screensDesign
 
 import android.app.DatePickerDialog
 import android.util.Log
+import android.widget.Toast
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -15,6 +17,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
@@ -30,6 +33,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.yandextodoapp.R
 import com.example.yandextodoapp.data.TaskInfo
@@ -45,8 +49,9 @@ fun TaskEdit(taskInf: TaskInfo?, onClick : () -> Unit){
     val checkedState = remember { mutableStateOf(false) }
     val important = remember { mutableStateOf("низкая") }
     val taskViewModel: TaskViewModel = viewModel()
-    var selectedDate = remember { mutableStateOf("отключено") }
+    val selectedDate = remember { mutableStateOf("отключено") }
     val context = LocalContext.current
+    val openDialog = remember { mutableStateOf(false) }
 
     Column (
         modifier = Modifier
@@ -75,11 +80,17 @@ fun TaskEdit(taskInf: TaskInfo?, onClick : () -> Unit){
                 modifier = Modifier
                     .clickable{
                         if (taskInf == null) {
-                            taskViewModel.setElement(taskName.value, message.value, important.value, selectedDate.value)
+                            if (taskName.value == " " || message.value == " ") {
+                                Toast.makeText(context, "Поле не может быть пустым!!!", Toast.LENGTH_SHORT).show()
+                            } else {
+                                taskViewModel.setElement(taskName.value, message.value, important.value, selectedDate.value)
+                                onClick()
+                            }
+
                         } else {
                             taskViewModel.updateElement(taskInf.id, taskName.value, message.value, important.value, selectedDate.value)
+                            onClick()
                         }
-                        onClick()
                     }
 
             )
@@ -89,6 +100,9 @@ fun TaskEdit(taskInf: TaskInfo?, onClick : () -> Unit){
             taskInf?.let {
                 if (it.taskName != taskName.value) {
                     taskName.value = it.taskName
+                }
+                if (it.taskDescription != taskName.value) {
+                    message.value = it.taskDescription
                 }
             }
         }
@@ -108,9 +122,9 @@ fun TaskEdit(taskInf: TaskInfo?, onClick : () -> Unit){
             modifier = Modifier
                 .fillMaxWidth()
                 .height(200.dp),
-            value = if (taskInf != null && taskInf.taskDescription !=  message.value) taskInf.taskDescription else message.value,
+            value = message.value,
             onValueChange = {
-                newText -> taskName.value = newText
+                newText -> message.value = newText
                             }
         )
         Row (
@@ -164,10 +178,10 @@ fun TaskEdit(taskInf: TaskInfo?, onClick : () -> Unit){
                 .padding(vertical = 20.dp),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Text(text = "Сделать до - ${selectedDate.value}")
+            Text(text = "Сделать до - ${if (taskInf?.deadline != "отключено" && taskInf?.deadline != null) taskInf.deadline else selectedDate.value}")
             Switch(
                 modifier = Modifier.height(20.dp),
-                checked = checkedState.value,
+                checked = if (taskInf?.deadline != "отключено" && taskInf?.deadline != null) true else checkedState.value,
                 onCheckedChange = {
                     checkedState.value = it
                     if (it) {
@@ -184,11 +198,38 @@ fun TaskEdit(taskInf: TaskInfo?, onClick : () -> Unit){
                 }
             )
         }
+
+        if (openDialog.value) {
+            AlertDialog(
+                onDismissRequest = { openDialog.value = false},
+                title = { Text(text = "Подтверждение действия") },
+                text = { Text("Вы действительно хотите удалить выбранный элемент?") },
+                confirmButton = {
+                    Button(
+                        {
+                            openDialog.value = false
+                            if (taskInf != null)
+                                taskViewModel.deleteElementByID(taskInf.id)
+                            onClick()
+                           }, border = BorderStroke(1.dp, Color.LightGray)) {
+                        Text("Удалить", fontSize = 22.sp)
+                    }
+                },
+                dismissButton = {
+                    Button(
+                        onClick = { openDialog.value = false }, border = BorderStroke(1.dp, Color.LightGray)) {
+                        Text("Отмена", fontSize = 22.sp)
+                    }
+                },
+                containerColor = Color.DarkGray,
+                titleContentColor = Color.LightGray,
+                textContentColor = Color.LightGray,
+                iconContentColor = Color.LightGray
+            )
+        }
         Button(
             onClick = {
-                if (taskInf != null)
-                    taskViewModel.deleteElementByID(taskInf.id)
-                onClick()
+                openDialog.value = true
             },
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)

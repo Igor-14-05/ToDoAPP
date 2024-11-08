@@ -1,7 +1,6 @@
 package com.example.yandextodoapp.ui.screensDesign
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -26,14 +25,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.yandextodoapp.R
 import com.example.yandextodoapp.data.TaskInfo
-import com.example.yandextodoapp.ui.theme.YandexToDoAPPTheme
 import com.example.yandextodoapp.viewModel.TaskViewModel
 
 @Composable
@@ -63,33 +60,53 @@ fun ToDoElement(elementInfo: TaskInfo, onClick : (TaskInfo?) -> Unit){
                 isChecked = checked
                 textDecoration = if (checked) TextDecoration.LineThrough else null
                 taskViewModel.setChangeState(elementInfo.id)
-                taskViewModel.numDone = "Выполнено - ${taskViewModel.getDoneTasks()}"
+                taskViewModel.numDone = "Выполнено - ${taskViewModel.getCountDoneTasks()}"
 
         })
-        Spacer(modifier = Modifier.width(8.dp))
-        Column (
+        Row (
+            verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.weight(1f)
-        ){
-            Text(
-                text = taskText,
-                textDecoration = textDecoration,
-                style = TextStyle(
-                    fontSize = 23.sp,
-                    fontWeight = FontWeight(300)
+        ) {
+            if (elementInfo.importance === "срочная" ) {
+                Image(
+                    painter = painterResource(id = R.drawable.icon_voskl),
+                    contentDescription = "icon_voskl",
+                    modifier = Modifier
+                        .size(20.dp)
                 )
-            )
-            Text(
-                text = if (elementInfo.taskDescription.length > 30)
+            } else if (elementInfo.importance === "низкая" ) {
+                Image(
+                    painter = painterResource(id = R.drawable.icon_arrow),
+                    contentDescription = "icon_arrow",
+                    modifier = Modifier
+                        .size(20.dp)
+                )
+        }
+            Column (
+
+            ){
+                Text(
+                    text = taskText,
+                    textDecoration = textDecoration,
+                    style = TextStyle(
+                        fontSize = 23.sp,
+                        fontWeight = FontWeight(300)
+                    )
+                )
+                Text(
+                    text = if (elementInfo.taskDescription.length > 30)
                         elementInfo.taskDescription.slice(0..25) + "..."
                     else
                         elementInfo.taskDescription,
-                textDecoration = textDecoration,
-                style = TextStyle(
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight(200)
+                    textDecoration = textDecoration,
+                    style = TextStyle(
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight(200)
+                    )
                 )
-            )
+            }
         }
+
 
         Image(
             painter = painterResource(id = R.drawable.icon_info),
