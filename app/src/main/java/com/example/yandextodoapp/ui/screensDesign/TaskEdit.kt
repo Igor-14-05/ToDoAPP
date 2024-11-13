@@ -1,7 +1,6 @@
 package com.example.yandextodoapp.ui.screensDesign
 
 import android.app.DatePickerDialog
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
@@ -81,14 +80,18 @@ fun TaskEdit(taskInf: TaskInfo?, onClick : () -> Unit){
                     .clickable{
                         if (taskInf == null) {
                             if (taskName.value == " " || message.value == " ") {
-                                Toast.makeText(context, "Поле не может быть пустым!!!", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(context,
+                                    "Поле не может быть пустым!!!",
+                                    Toast.LENGTH_SHORT).show()
                             } else {
-                                taskViewModel.setElement(taskName.value, message.value, important.value, selectedDate.value)
+                                taskViewModel.setElement(taskName.value, message.value,
+                                    important.value, selectedDate.value)
                                 onClick()
                             }
 
                         } else {
-                            taskViewModel.updateElement(taskInf.id, taskName.value, message.value, important.value, selectedDate.value)
+                            taskViewModel.updateElement(taskInf.id, taskName.value, message.value,
+                                important.value, selectedDate.value)
                             onClick()
                         }
                     }
@@ -178,10 +181,15 @@ fun TaskEdit(taskInf: TaskInfo?, onClick : () -> Unit){
                 .padding(vertical = 20.dp),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Text(text = "Сделать до - ${if (taskInf?.deadline != "отключено" && taskInf?.deadline != null) taskInf.deadline else selectedDate.value}")
+            Text(text = "Сделать до - " +
+                    if (taskInf?.deadline != "отключено" && taskInf?.deadline != null)
+                        taskInf.deadline
+                    else selectedDate.value
+            )
             Switch(
                 modifier = Modifier.height(20.dp),
-                checked = if (taskInf?.deadline != "отключено" && taskInf?.deadline != null) true else checkedState.value,
+                checked = if (taskInf?.deadline != "отключено" && taskInf?.deadline != null) true
+                            else checkedState.value,
                 onCheckedChange = {
                     checkedState.value = it
                     if (it) {
@@ -217,7 +225,8 @@ fun TaskEdit(taskInf: TaskInfo?, onClick : () -> Unit){
                 },
                 dismissButton = {
                     Button(
-                        onClick = { openDialog.value = false }, border = BorderStroke(1.dp, Color.LightGray)) {
+                        onClick = { openDialog.value = false },
+                        border = BorderStroke(1.dp, Color.LightGray)) {
                         Text("Отмена", fontSize = 22.sp)
                     }
                 },
