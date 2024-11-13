@@ -90,7 +90,7 @@ fun TaskEdit(taskInf: TaskInfo?, onClick : () -> Unit){
                             }
 
                         } else {
-                            taskViewModel.updateElement(taskInf.id, taskName.value, message.value,
+                            taskViewModel.updateElement(taskInf.id.toInt(), taskName.value, message.value,
                                 important.value, selectedDate.value)
                             onClick()
                         }
@@ -104,8 +104,8 @@ fun TaskEdit(taskInf: TaskInfo?, onClick : () -> Unit){
                 if (it.taskName != taskName.value) {
                     taskName.value = it.taskName
                 }
-                if (it.taskDescription != taskName.value) {
-                    message.value = it.taskDescription
+                if (it.taskName != taskName.value) {
+                    message.value = it.taskName
                 }
             }
         }
@@ -217,7 +217,7 @@ fun TaskEdit(taskInf: TaskInfo?, onClick : () -> Unit){
                         {
                             openDialog.value = false
                             if (taskInf != null)
-                                taskViewModel.deleteElementByID(taskInf.id)
+                                taskViewModel.deleteElementByID(taskInf.id.toInt())
                             onClick()
                            }, border = BorderStroke(1.dp, Color.LightGray)) {
                         Text("Удалить", fontSize = 22.sp)

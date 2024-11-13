@@ -29,7 +29,7 @@ class TaskViewModel : ViewModel() {
     fun updateElement(id: Int, name : String, message : String, important : String,
                       deadline : String){
         listOfElement[id].taskName = name
-        listOfElement[id].taskDescription = message
+        listOfElement[id].taskName = message
         listOfElement[id].importance = important
         listOfElement[id].isCompleted = false
         listOfElement[id].deadline = deadline
@@ -37,16 +37,16 @@ class TaskViewModel : ViewModel() {
 
     fun deleteElementByID(id: Int){
         for (i in listOfElement.size - 1 downTo 0){
-            if (listOfElement[i].id == id)
+            if (listOfElement[i].id.toInt() == id)
                 listOfElement.removeAt(i)
         }
     }
 
     fun setElement(name : String, message : String, important : String, deadline : String) {
-        listOfElement.add(TaskInfo(id = listOfElement.size,
-            taskName = name, taskDescription = message,
+        listOfElement.add(TaskInfo(id = listOfElement.size.toString(),
+            taskName = name,
             importance = important, isCompleted = false,
-            deadline = deadline))
+            deadline = deadline, color = null, lastUpdate = null))
     }
 
     var visibleItems: SnapshotStateList<TaskInfo> = mutableStateListOf()

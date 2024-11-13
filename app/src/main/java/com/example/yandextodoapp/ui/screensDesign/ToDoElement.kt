@@ -57,7 +57,7 @@ fun ToDoElement(elementInfo: TaskInfo, onClick : (TaskInfo?) -> Unit){
                     checked ->
                 isChecked = checked
                 textDecoration = if (checked) TextDecoration.LineThrough else null
-                taskViewModel.setChangeState(elementInfo.id)
+                taskViewModel.setChangeState(elementInfo.id.toInt())
                 taskViewModel.numDone = "Выполнено - ${taskViewModel.getCountDoneTasks()}"
 
         })
@@ -92,10 +92,10 @@ fun ToDoElement(elementInfo: TaskInfo, onClick : (TaskInfo?) -> Unit){
                     )
                 )
                 Text(
-                    text = if (elementInfo.taskDescription.length > 30)
-                        elementInfo.taskDescription.slice(0..25) + "..."
+                    text = if (elementInfo.taskName.length > 30)
+                        elementInfo.taskName.slice(0..25) + "..."
                     else
-                        elementInfo.taskDescription,
+                        elementInfo.taskName,
                     textDecoration = textDecoration,
                     style = TextStyle(
                         fontSize = 14.sp,
