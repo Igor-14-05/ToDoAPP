@@ -38,7 +38,6 @@ fun ToDoElement(elementInfo: TaskInfo, onClick : (TaskInfo?) -> Unit){
     var isChecked by remember { mutableStateOf(elementInfo.isCompleted) }
     var textDecoration:TextDecoration?  by remember { mutableStateOf(textDecorationInfo) }
     var taskText by remember { mutableStateOf(elementInfo.taskName) }
-    val taskViewModel: TaskViewModel = viewModel()
 
     Row(
         Modifier
@@ -57,8 +56,6 @@ fun ToDoElement(elementInfo: TaskInfo, onClick : (TaskInfo?) -> Unit){
                     checked ->
                 isChecked = checked
                 textDecoration = if (checked) TextDecoration.LineThrough else null
-                taskViewModel.setChangeState(elementInfo.id.toInt())
-                taskViewModel.numDone = "Выполнено - ${taskViewModel.getCountDoneTasks()}"
 
         })
         Row (
@@ -80,9 +77,7 @@ fun ToDoElement(elementInfo: TaskInfo, onClick : (TaskInfo?) -> Unit){
                         .size(20.dp)
                 )
         }
-            Column (
-
-            ){
+            Column {
                 Text(
                     text = taskText,
                     textDecoration = textDecoration,

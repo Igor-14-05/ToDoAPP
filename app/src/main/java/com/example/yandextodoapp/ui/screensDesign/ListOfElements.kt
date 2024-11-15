@@ -1,6 +1,6 @@
 package com.example.yandextodoapp.ui.screensDesign
 
-import android.annotation.SuppressLint
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,20 +12,21 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.yandextodoapp.app.App
 import com.example.yandextodoapp.data.TaskInfo
-import com.example.yandextodoapp.data.listOfElement
-import com.example.yandextodoapp.viewModel.TaskViewModel
+import com.example.yandextodoapp.viewModel.MainViewModel
 
-@SuppressLint("MutableCollectionMutableState")
 @Composable
-fun ListOfElements(onClick : (TaskInfo?) -> Unit) {
-    val taskViewModel: TaskViewModel = viewModel()
+fun ListOfElements(onClick : (TaskInfo?) -> Unit, taskViewModel: MainViewModel) {
+    val listToDoInfo by taskViewModel.listToDoInfo.observeAsState(emptyList())
+    val errorInfo by taskViewModel.error.observeAsState("")
     Box(
         modifier = Modifier.fillMaxSize()
     ){
@@ -40,12 +41,12 @@ fun ListOfElements(onClick : (TaskInfo?) -> Unit) {
                     ))
                 .align(Alignment.TopCenter)
         ){
-                items(taskViewModel.SizeUpdate.intValue){lang ->
-                    if (taskViewModel.SizeUpdate.intValue == listOfElement.size)
-                        ToDoElement(taskViewModel.visibleAllItems[lang], onClick)
-                    else
-                        ToDoElement(taskViewModel.visibleItems[lang], onClick)
+            if (listToDoInfo.isNotEmpty())
+                items(listToDoInfo.size){index ->
+                        ToDoElement(listToDoInfo[index], onClick)
                 }
+            else
+                Toast.makeText(App.context, errorInfo, Toast.LENGTH_SHORT).show()
             }
         Button(
             onClick = {

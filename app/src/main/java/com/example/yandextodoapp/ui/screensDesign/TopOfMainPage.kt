@@ -73,10 +73,10 @@ fun TopOfMainPage() {
                         .clickable{
                             if (picId.intValue == R.drawable.icon_close_eye) {
                                 picId.intValue = R.drawable.icon_open_eye
-                                taskViewModel.toggleAll(true)
+
                             } else{
                                 picId.intValue = R.drawable.icon_close_eye
-                                taskViewModel.toggleAll(false)
+
                             }
 
                         }
