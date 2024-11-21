@@ -36,7 +36,7 @@ class MainViewModel : ViewModel()  {
                 result.onSuccess {
                     _listToDoInfo.value = it
                     _revision = it.revision
-                    Log.d("dsd", "fdfsd")
+                    Log.d("dsd", "${it.revision}")
                 }
 
                 result.onFailure {

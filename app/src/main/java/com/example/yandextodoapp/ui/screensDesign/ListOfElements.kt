@@ -43,7 +43,7 @@ fun ListOfElements(onClick : (TaskInfo?) -> Unit, taskViewModel: MainViewModel) 
         ){
             if (listToDoInfo.isNotEmpty())
                 items(listToDoInfo.size){index ->
-                        ToDoElement(listToDoInfo[index], onClick)
+                        ToDoElement(listToDoInfo[index], onClick, taskViewModel)
                 }
             else
                 Toast.makeText(App.context, errorInfo, Toast.LENGTH_SHORT).show()

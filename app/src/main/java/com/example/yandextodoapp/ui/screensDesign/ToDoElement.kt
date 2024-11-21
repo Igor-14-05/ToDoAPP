@@ -1,5 +1,7 @@
 package com.example.yandextodoapp.ui.screensDesign
 
+import android.util.Log
+import androidx.activity.viewModels
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -29,15 +31,18 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.yandextodoapp.R
 import com.example.yandextodoapp.data.TaskInfo
+import com.example.yandextodoapp.data.aboutOneTask
+import com.example.yandextodoapp.viewModel.MainViewModel
 import com.example.yandextodoapp.viewModel.TaskViewModel
 
 @Composable
-fun ToDoElement(elementInfo: TaskInfo, onClick : (TaskInfo?) -> Unit){
+fun ToDoElement(elementInfo: TaskInfo, onClick : (TaskInfo?) -> Unit, taskViewModel: MainViewModel){
 
     val textDecorationInfo = if (elementInfo.isCompleted) TextDecoration.LineThrough else null
     var isChecked by remember { mutableStateOf(elementInfo.isCompleted) }
     var textDecoration:TextDecoration?  by remember { mutableStateOf(textDecorationInfo) }
     var taskText by remember { mutableStateOf(elementInfo.taskName) }
+    val taskViewModel: MainViewModel = viewModel()
 
     Row(
         Modifier
@@ -56,6 +61,18 @@ fun ToDoElement(elementInfo: TaskInfo, onClick : (TaskInfo?) -> Unit){
                     checked ->
                 isChecked = checked
                 textDecoration = if (checked) TextDecoration.LineThrough else null
+                Log.d("Revision", "${taskViewModel.revision}")
+                taskViewModel.updateElementToDo(
+                    aboutOneTask(
+                        element = TaskInfo(
+                            id = elementInfo.id,
+                            taskName = elementInfo.taskName,
+                            isCompleted = isChecked,
+                            createAt = elementInfo.createAt,
+                            modifiedAt = System.currentTimeMillis(),
+                            lastUpdate = System.currentTimeMillis().toString()
+                        )
+                    ), elementInfo.id, taskViewModel.revision)
 
         })
         Row (
