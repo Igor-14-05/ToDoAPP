@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">YandexToDoAPP</string>
+    <string name="txt_save">СОХРАНИТЬ</string>
+    <string name="txt_error_empty">Поле не может быть пустым!!!</string>
+    <string name="txt_delete">Удалить</string>
+    <string name="txt_cancel">Отмена</string>
+    <string name="txt_confirm_action">Подтверждение действия</string>
+    <string name="txt_ask_really_want">Вы действительно хотите удалить выбранный элемент?</string>
+    <string name="txt_disable">отключено</string>
+    <string name="txt_low">низкая</string>
+    <string name="txt_simple">обычная</string>
+    <string name="txt_urgent">срочная</string>
+    <string name="txt_importane">Важность -</string>
+    <string name="txt_do_by">"Сделать до - "</string>
 </resources>

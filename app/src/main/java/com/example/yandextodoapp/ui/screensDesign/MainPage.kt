@@ -2,7 +2,6 @@ package com.example.yandextodoapp.ui.screensDesign
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
-import androidx.lifecycle.LifecycleOwner
 import com.example.yandextodoapp.data.TaskInfo
 import com.example.yandextodoapp.viewModel.MainViewModel
 
