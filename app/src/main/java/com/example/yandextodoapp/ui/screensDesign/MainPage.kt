@@ -1,17 +1,16 @@
 package com.example.yandextodoapp.ui.screensDesign
 
-import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.LifecycleOwner
 import com.example.yandextodoapp.data.TaskInfo
-import com.example.yandextodoapp.ui.theme.YandexToDoAPPTheme
+import com.example.yandextodoapp.viewModel.MainViewModel
 
 
 @Composable
-fun MainPage(onClick : (TaskInfo?) -> Unit) {
+fun MainPage(taskViewModel: MainViewModel, onClick: (TaskInfo?) -> Unit) {
     Column {
         TopOfMainPage()
-        ListOfElements(onClick)
+        ListOfElements(onClick, taskViewModel)
     }
 }

@@ -1,0 +1,7 @@
+# Default ignored files
+/shelf/
+/workspace.xml
+.name
+buildOutputCleanup.lock
+gradle/wrapper/gradle-wrapper.properties
+gradlew

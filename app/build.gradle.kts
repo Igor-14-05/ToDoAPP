@@ -52,9 +52,9 @@ android {
 }
 
 dependencies {
-    implementation("androidx.core:core-ktx:1.13.1")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.4")
-    implementation("androidx.activity:activity-compose:1.9.1")
+    implementation("androidx.core:core-ktx:1.13.0")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.7")
+    implementation("androidx.activity:activity-compose:1.9.3")
     implementation(platform("androidx.compose:compose-bom:2023.08.00"))
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.ui:ui-graphics")
@@ -68,8 +68,21 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
 
-    implementation("androidx.navigation:navigation-compose:2.5.3")
-    implementation ("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
+    implementation("androidx.navigation:navigation-compose:2.8.4")
+    implementation ("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
 
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:0.9.2")
 
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.2")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+
+    implementation("com.squareup.okhttp3:logging-interceptor:4.11.0")
+
+    debugImplementation("com.github.chuckerteam.chucker:library:4.0.0")
+
+    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation ("com.google.code.gson:gson:2.10.1")
+
+    implementation ("androidx.compose.runtime:runtime-livedata:1.4.0")
 }
