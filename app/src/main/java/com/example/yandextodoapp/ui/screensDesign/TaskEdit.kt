@@ -31,10 +31,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.yandextodoapp.R
+import com.example.yandextodoapp.data.Importance
 import com.example.yandextodoapp.data.TaskInfo
 import com.example.yandextodoapp.data.aboutOneTask
 import com.example.yandextodoapp.viewModel.MainViewModel
@@ -73,14 +75,12 @@ fun TaskEdit(taskViewModel: MainViewModel, taskInf: TaskInfo?, onClick : () -> U
                     },
             )
             Text(
-                text = "СОХРАНИТЬ",
+                text = stringResource(R.string.txt_save),
                 color = Color.Blue,
                 fontWeight = FontWeight(500),
                 modifier = Modifier
                     .clickable{
-                        Log.d("TaskhthrInfo", "$taskInf")
                         if (taskInf != null) {
-                            Log.d("TaskhthrInfo", "$taskInf")
                             if (taskName.value == " ") {
                                 Toast.makeText(context,
                                     "Поле не может быть пустым!!!",
@@ -155,7 +155,7 @@ fun TaskEdit(taskViewModel: MainViewModel, taskInf: TaskInfo?, onClick : () -> U
                 .padding(vertical = 20.dp),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Text(text = "Важность - ${important.value}")
+            Text(text = stringResource(R.string.txt_importane) + important.value)
             Box (
                 modifier = Modifier
                     .background(
@@ -170,26 +170,27 @@ fun TaskEdit(taskViewModel: MainViewModel, taskInf: TaskInfo?, onClick : () -> U
                     Image(
                         painter = painterResource(id = R.drawable.icon_arrow),
                         contentDescription = "icon_info",
+
                         modifier = Modifier
                             .size(30.dp)
                             .padding(horizontal = 7.dp, vertical = 2.dp)
                             .clickable {
-                                important.value = "низкая"
+                                important.value = Importance.LOW.text
                             },
                     )
                     Text(text = "Нет",
                         modifier = Modifier
                             .padding(horizontal = 10.dp, vertical = 2.dp)
-                            .clickable{
-                                important.value = "обычная"
+                            .clickable {
+                                important.value = Importance.NORMAL.text
                             }
                     )
                     Text(text = "!!", color = Color.Red,
                         modifier = Modifier
                             .padding(horizontal = 10.dp, vertical = 2.dp)
-                            .clickable{
-                                important.value = "срочная"
-                        }
+                            .clickable {
+                                important.value = Importance.HIGH.text
+                            }
                     )
                 }
             }
@@ -200,7 +201,7 @@ fun TaskEdit(taskViewModel: MainViewModel, taskInf: TaskInfo?, onClick : () -> U
                 .padding(vertical = 20.dp),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Text(text = "Сделать до - " +
+            Text(text = stringResource(R.string.txt_do_by) +
                     if (taskInf?.deadline != null)
                         taskInf.deadline
                     else selectedDate.value
@@ -229,8 +230,8 @@ fun TaskEdit(taskViewModel: MainViewModel, taskInf: TaskInfo?, onClick : () -> U
         if (openDialog.value) {
             AlertDialog(
                 onDismissRequest = { openDialog.value = false},
-                title = { Text(text = "Подтверждение действия") },
-                text = { Text("Вы действительно хотите удалить выбранный элемент?") },
+                title = { Text(text = stringResource(R.string.txt_confirm_action)) },
+                text = { Text(stringResource(R.string.txt_ask_really_want)) },
                 confirmButton = {
                     Button(
                         {
@@ -239,14 +240,14 @@ fun TaskEdit(taskViewModel: MainViewModel, taskInf: TaskInfo?, onClick : () -> U
                             taskViewModel.getAllListToDo()
                             onClick()
                            }, border = BorderStroke(1.dp, Color.LightGray)) {
-                        Text("Удалить", fontSize = 22.sp)
+                        Text(stringResource(R.string.txt_delete), fontSize = 22.sp)
                     }
                 },
                 dismissButton = {
                     Button(
                         onClick = { openDialog.value = false },
                         border = BorderStroke(1.dp, Color.LightGray)) {
-                        Text("Отмена", fontSize = 22.sp)
+                        Text(stringResource(R.string.txt_cancel), fontSize = 22.sp)
                     }
                 },
                 containerColor = Color.DarkGray,
@@ -264,7 +265,7 @@ fun TaskEdit(taskViewModel: MainViewModel, taskInf: TaskInfo?, onClick : () -> U
                 .fillMaxWidth()
                 .padding(horizontal = 20.dp, vertical = 15.dp)
         ) {
-            Text(text = "Удалить")
+            Text(text = stringResource(R.string.txt_delete))
         }
     }
 }

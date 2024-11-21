@@ -1,7 +1,6 @@
 package com.example.yandextodoapp.ui.screensDesign
 
 import android.util.Log
-import androidx.activity.viewModels
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -30,10 +29,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.yandextodoapp.R
+import com.example.yandextodoapp.data.ImportanceTask
 import com.example.yandextodoapp.data.TaskInfo
 import com.example.yandextodoapp.data.aboutOneTask
 import com.example.yandextodoapp.viewModel.MainViewModel
-import com.example.yandextodoapp.viewModel.TaskViewModel
 
 @Composable
 fun ToDoElement(elementInfo: TaskInfo, onClick : (TaskInfo?) -> Unit, taskViewModel: MainViewModel){
@@ -54,7 +53,7 @@ fun ToDoElement(elementInfo: TaskInfo, onClick : (TaskInfo?) -> Unit, taskViewMo
         Checkbox(
             checked = isChecked,
             colors = CheckboxDefaults.colors(
-                uncheckedColor = if (elementInfo.importance === "срочная" ) Color.Red else Color.Gray,
+                uncheckedColor = if (elementInfo.importance === ImportanceTask.HIGH.text ) Color.Red else Color.Gray,
                 checkedColor = Color.Green
             ),
             onCheckedChange = {
@@ -79,14 +78,14 @@ fun ToDoElement(elementInfo: TaskInfo, onClick : (TaskInfo?) -> Unit, taskViewMo
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.weight(1f)
         ) {
-            if (elementInfo.importance === "срочная" ) {
+            if (elementInfo.importance === ImportanceTask.HIGH.text ) {
                 Image(
                     painter = painterResource(id = R.drawable.icon_voskl),
                     contentDescription = "icon_voskl",
                     modifier = Modifier
                         .size(20.dp)
                 )
-            } else if (elementInfo.importance === "низкая" ) {
+            } else if (elementInfo.importance === ImportanceTask.LOW.text ) {
                 Image(
                     painter = painterResource(id = R.drawable.icon_arrow),
                     contentDescription = "icon_arrow",
